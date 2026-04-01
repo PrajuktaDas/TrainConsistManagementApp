@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 class Bogie {
@@ -23,25 +22,28 @@ public class TrainConsistManagementApp {
 
         System.out.println("=== Train Consist Management App ===");
 
-        // Create bogie list
         List<Bogie> bogies = new ArrayList<>();
 
         bogies.add(new Bogie("Sleeper", 72));
         bogies.add(new Bogie("AC Chair", 56));
+        bogies.add(new Bogie("Sleeper", 70));
         bogies.add(new Bogie("First Class", 24));
-        bogies.add(new Bogie("Super Sleeper", 80));
+        bogies.add(new Bogie("AC Chair", 60));
 
-        System.out.println("\nAll Bogies:");
+        System.out.println("\nOriginal Bogie List:");
         bogies.forEach(System.out::println);
 
-        // Stream filtering
-        List<Bogie> highCapacityBogies =
+        // Stream grouping
+        Map<String, List<Bogie>> groupedBogies =
                 bogies.stream()
-                        .filter(b -> b.capacity > 60)
-                        .collect(Collectors.toList());
+                        .collect(Collectors.groupingBy(b -> b.name));
 
-        System.out.println("\nFiltered Bogies (Capacity > 60):");
-        highCapacityBogies.forEach(System.out::println);
+        System.out.println("\nGrouped Bogies By Type:");
+
+        groupedBogies.forEach((type, list) -> {
+            System.out.println(type + ":");
+            list.forEach(b -> System.out.println("  " + b));
+        });
 
         System.out.println("\nProgram continues...");
     }
