@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.stream.Collectors;
 
 class Bogie {
     String name;
@@ -8,6 +7,10 @@ class Bogie {
     Bogie(String name, int capacity) {
         this.name = name;
         this.capacity = capacity;
+    }
+
+    public int getCapacity() {
+        return capacity;
     }
 
     @Override
@@ -30,20 +33,15 @@ public class TrainConsistManagementApp {
         bogies.add(new Bogie("First Class", 24));
         bogies.add(new Bogie("AC Chair", 60));
 
-        System.out.println("\nOriginal Bogie List:");
+        System.out.println("\nBogies in Train:");
         bogies.forEach(System.out::println);
 
-        // Stream grouping
-        Map<String, List<Bogie>> groupedBogies =
-                bogies.stream()
-                        .collect(Collectors.groupingBy(b -> b.name));
+        // Stream aggregation
+        int totalSeats = bogies.stream()
+                .map(b -> b.capacity)
+                .reduce(0, Integer::sum);
 
-        System.out.println("\nGrouped Bogies By Type:");
-
-        groupedBogies.forEach((type, list) -> {
-            System.out.println(type + ":");
-            list.forEach(b -> System.out.println("  " + b));
-        });
+        System.out.println("\nTotal Seating Capacity of Train: " + totalSeats);
 
         System.out.println("\nProgram continues...");
     }
