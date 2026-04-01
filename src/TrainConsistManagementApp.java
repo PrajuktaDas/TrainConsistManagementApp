@@ -1,47 +1,48 @@
-import java.util.*;
-
-class Bogie {
-    String name;
-    int capacity;
-
-    Bogie(String name, int capacity) {
-        this.name = name;
-        this.capacity = capacity;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    @Override
-    public String toString() {
-        return name + " - Capacity: " + capacity;
-    }
-}
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TrainConsistManagementApp {
 
+    // Regex patterns
+    static final String TRAIN_ID_REGEX = "TRN-\\d{4}";
+    static final String CARGO_CODE_REGEX = "PET-[A-Z]{2}";
+
+    public static boolean validateTrainID(String trainId) {
+        Pattern pattern = Pattern.compile(TRAIN_ID_REGEX);
+        Matcher matcher = pattern.matcher(trainId);
+        return matcher.matches();
+    }
+
+    public static boolean validateCargoCode(String cargoCode) {
+        Pattern pattern = Pattern.compile(CARGO_CODE_REGEX);
+        Matcher matcher = pattern.matcher(cargoCode);
+        return matcher.matches();
+    }
+
     public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
 
         System.out.println("=== Train Consist Management App ===");
 
-        List<Bogie> bogies = new ArrayList<>();
+        System.out.print("Enter Train ID: ");
+        String trainId = scanner.nextLine();
 
-        bogies.add(new Bogie("Sleeper", 72));
-        bogies.add(new Bogie("AC Chair", 56));
-        bogies.add(new Bogie("Sleeper", 70));
-        bogies.add(new Bogie("First Class", 24));
-        bogies.add(new Bogie("AC Chair", 60));
+        System.out.print("Enter Cargo Code: ");
+        String cargoCode = scanner.nextLine();
 
-        System.out.println("\nBogies in Train:");
-        bogies.forEach(System.out::println);
+        if (validateTrainID(trainId)) {
+            System.out.println("Train ID is VALID");
+        } else {
+            System.out.println("Train ID is INVALID");
+        }
 
-        // Stream aggregation
-        int totalSeats = bogies.stream()
-                .map(b -> b.capacity)
-                .reduce(0, Integer::sum);
-
-        System.out.println("\nTotal Seating Capacity of Train: " + totalSeats);
+        if (validateCargoCode(cargoCode)) {
+            System.out.println("Cargo Code is VALID");
+        } else {
+            System.out.println("Cargo Code is INVALID");
+        }
 
         System.out.println("\nProgram continues...");
     }
