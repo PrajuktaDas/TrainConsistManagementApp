@@ -4,59 +4,47 @@ import static org.junit.jupiter.api.Assertions.*;
 class TrainConsistManagementAppTest {
 
     @Test
-    void testCargo_SafeAssignment() {
+    void testSort_BasicSorting() {
 
-        TrainConsistManagementApp.GoodsBogie bogie =
-                new TrainConsistManagementApp.GoodsBogie("Cylindrical");
+        int[] arr = {72, 56, 24, 70, 60};
+        int[] expected = {24, 56, 60, 70, 72};
 
-        bogie.assignCargo("Petroleum");
-
-        assertEquals("Petroleum", bogie.getCargo());
+        assertArrayEquals(expected, TrainConsistManagementApp.sortCapacities(arr));
     }
 
     @Test
-    void testCargo_UnsafeAssignmentHandled() {
+    void testSort_AlreadySortedArray() {
 
-        TrainConsistManagementApp.GoodsBogie bogie =
-                new TrainConsistManagementApp.GoodsBogie("Rectangular");
+        int[] arr = {24, 56, 60, 70, 72};
+        int[] expected = {24, 56, 60, 70, 72};
 
-        bogie.assignCargo("Petroleum");
-
-        assertNull(bogie.getCargo());
+        assertArrayEquals(expected, TrainConsistManagementApp.sortCapacities(arr));
     }
 
     @Test
-    void testCargo_CargoNotAssignedAfterFailure() {
+    void testSort_DuplicateValues() {
 
-        TrainConsistManagementApp.GoodsBogie bogie =
-                new TrainConsistManagementApp.GoodsBogie("Rectangular");
+        int[] arr = {72, 56, 56, 24};
+        int[] expected = {24, 56, 56, 72};
 
-        bogie.assignCargo("Petroleum");
-
-        assertNull(bogie.getCargo());
+        assertArrayEquals(expected, TrainConsistManagementApp.sortCapacities(arr));
     }
 
     @Test
-    void testCargo_ProgramContinuesAfterException() {
+    void testSort_SingleElementArray() {
 
-        TrainConsistManagementApp.GoodsBogie b1 =
-                new TrainConsistManagementApp.GoodsBogie("Rectangular");
+        int[] arr = {50};
+        int[] expected = {50};
 
-        TrainConsistManagementApp.GoodsBogie b2 =
-                new TrainConsistManagementApp.GoodsBogie("Cylindrical");
-
-        b1.assignCargo("Petroleum"); // unsafe
-        b2.assignCargo("Grain");     // safe
-
-        assertEquals("Grain", b2.getCargo());
+        assertArrayEquals(expected, TrainConsistManagementApp.sortCapacities(arr));
     }
 
     @Test
-    void testCargo_FinallyBlockExecution() {
+    void testSort_AllEqualValues() {
 
-        TrainConsistManagementApp.GoodsBogie bogie =
-                new TrainConsistManagementApp.GoodsBogie("Rectangular");
+        int[] arr = {40, 40, 40};
+        int[] expected = {40, 40, 40};
 
-        assertDoesNotThrow(() -> bogie.assignCargo("Petroleum"));
+        assertArrayEquals(expected, TrainConsistManagementApp.sortCapacities(arr));
     }
 }
