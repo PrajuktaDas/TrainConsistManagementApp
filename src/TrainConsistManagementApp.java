@@ -2,26 +2,38 @@ import java.util.Arrays;
 
 public class TrainConsistManagementApp {
 
-    // Method to sort bogie names
-    public static String[] sortBogieNames(String[] bogies) {
+    // Linear Search Method
+    public static boolean searchBogie(String[] bogieIds, String key) {
 
-        Arrays.sort(bogies);
-        return bogies;
+        for (int i = 0; i < bogieIds.length; i++) {
+
+            if (bogieIds[i].equals(key)) {
+                return true; // match found
+            }
+
+        }
+
+        return false; // no match found
     }
 
     public static void main(String[] args) {
 
         System.out.println("=== Train Consist Management App ===");
 
-        String[] bogieNames = {"Sleeper", "AC Chair", "First Class", "General", "Luxury"};
+        String[] bogieIds = {"BG101","BG205","BG309","BG412","BG550"};
 
-        System.out.println("\nOriginal Bogie Names:");
-        System.out.println(Arrays.toString(bogieNames));
+        System.out.println("\nAvailable Bogie IDs:");
+        System.out.println(Arrays.toString(bogieIds));
 
-        sortBogieNames(bogieNames);
+        String searchKey = "BG309";
 
-        System.out.println("\nSorted Bogie Names:");
-        System.out.println(Arrays.toString(bogieNames));
+        boolean found = searchBogie(bogieIds, searchKey);
+
+        if(found) {
+            System.out.println("\nBogie ID " + searchKey + " found in train consist.");
+        } else {
+            System.out.println("\nBogie ID " + searchKey + " not found.");
+        }
 
         System.out.println("\nProgram continues...");
     }
