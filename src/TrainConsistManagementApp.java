@@ -1,67 +1,65 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class TrainConsistManagementApp {
 
-    // Custom Exception (Nested Class)
-    static class InvalidCapacityException extends Exception {
-        public InvalidCapacityException(String message) {
+    // Custom Runtime Exception
+    static class CargoSafetyException extends RuntimeException {
+        public CargoSafetyException(String message) {
             super(message);
         }
     }
 
-    // Passenger Bogie Class (Nested Class)
-    static class PassengerBogie {
+    // Goods Bogie Class
+    static class GoodsBogie {
 
-        String type;
-        int capacity;
+        String shape;
+        String cargo;
 
-        public PassengerBogie(String type, int capacity) throws InvalidCapacityException {
+        public GoodsBogie(String shape) {
+            this.shape = shape;
+        }
 
-            if (capacity <= 0) {
-                throw new InvalidCapacityException("Capacity must be greater than zero");
+        // Cargo assignment method
+        public void assignCargo(String cargo) {
+
+            try {
+
+                // Safety validation
+                if (shape.equalsIgnoreCase("Rectangular") && cargo.equalsIgnoreCase("Petroleum")) {
+                    throw new CargoSafetyException("Unsafe cargo assignment: Petroleum cannot be loaded in Rectangular bogie");
+                }
+
+                this.cargo = cargo;
+                System.out.println("Cargo assigned successfully: " + cargo + " -> " + shape + " bogie");
+
+            } catch (CargoSafetyException e) {
+
+                System.out.println("Error: " + e.getMessage());
+
+            } finally {
+
+                System.out.println("Cargo assignment attempt completed.\n");
             }
-
-            this.type = type;
-            this.capacity = capacity;
         }
 
-        public String getType() {
-            return type;
-        }
-
-        public int getCapacity() {
-            return capacity;
-        }
-
-        @Override
-        public String toString() {
-            return type + " - Capacity: " + capacity;
+        public String getCargo() {
+            return cargo;
         }
     }
 
     public static void main(String[] args) {
 
-        System.out.println("=== Train Consist Management App ===");
+        System.out.println("=== Train Consist Management App ===\n");
 
-        List<PassengerBogie> bogies = new ArrayList<>();
+        // Create bogies
+        GoodsBogie cylindrical = new GoodsBogie("Cylindrical");
+        GoodsBogie rectangular = new GoodsBogie("Rectangular");
 
-        try {
+        // Safe assignment
+        cylindrical.assignCargo("Petroleum");
 
-            bogies.add(new PassengerBogie("Sleeper", 72));
-            bogies.add(new PassengerBogie("AC Chair", 56));
-            bogies.add(new PassengerBogie("First Class", 24));
+        // Unsafe assignment
+        rectangular.assignCargo("Petroleum");
 
-            System.out.println("\nPassenger Bogies Created:");
-
-            for (PassengerBogie b : bogies) {
-                System.out.println(b);
-            }
-
-        } catch (InvalidCapacityException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-
-        System.out.println("\nProgram continues...");
+        // Program continues
+        System.out.println("Program continues after handling exception.");
     }
 }
